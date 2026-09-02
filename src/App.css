@@ -29,12 +29,20 @@ input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px
 .environment-card strong, .environment-card small { display: block; }
 .environment-card small { color: var(--muted); font-size: .75rem; margin-top: 3px; }
 .radio { margin-left: auto; color: var(--purple); font-size: 1.3rem; }
+.sequence { display: grid; gap: 10px; margin: 24px 0; }
+.sequence-item { display: flex; align-items: center; gap: 12px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; font-size: .9rem; }
+.config-note { color: var(--muted); font-size: .8rem; margin: 0 0 20px; }
 .file-label { margin: 20px 0; }
 .file-label input { padding: 9px; font-size: .8rem; }
 .primary-button { width: 100%; border: 0; border-radius: 12px; padding: 15px 18px; background: var(--ink); color: white; font-weight: 800; }
 .primary-button:hover { background: var(--purple); }
 .primary-button:disabled { cursor: not-allowed; opacity: .4; }
 .primary-button span { float: right; font-size: 1.2rem; }
+.hold-button { position: relative; overflow: hidden; touch-action: none; }
+.hold-button .hold-fill { position: absolute; inset: 0 auto 0 0; width: 100%; transform: scaleX(0); transform-origin: left; background: #8d82ff; pointer-events: none; }
+.hold-button .hold-label, .hold-button .hold-arrow { position: relative; z-index: 1; }
+.hold-button .hold-label { float: none; }
+.hold-button .hold-arrow { float: right; }
 .test-stage { text-align: center; padding: 8vh 0; }
 .stage-label { letter-spacing: .04em; }
 .word-card, .rest-card { min-height: 300px; display: grid; place-items: center; background: white; border: 1px solid var(--line); border-radius: 28px; margin: 22px 0; box-shadow: 0 18px 50px #4d463d12; }
@@ -42,20 +50,31 @@ input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px
 .rest-card { display: flex; flex-direction: column; gap: 15px; color: var(--muted); }
 .rest-card strong { font-size: 5rem; color: var(--ink); }
 .progress-track { height: 5px; background: var(--line); border-radius: 5px; overflow: hidden; }
-.progress-track div { height: 100%; background: var(--purple); transition: width 1s linear; }
+.progress-track div { height: 100%; background: var(--purple); }
+.progress-fill { width: 100%; transform-origin: left; animation: countdown var(--duration) linear forwards; }
+.rest-fill { background: #ef8354 !important; }
+@keyframes countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 .countdown { color: var(--muted); font-size: .85rem; margin-top: 12px; }
 .recall-panel h2 { margin-bottom: 24px; }
 .answer-form { display: flex; gap: 8px; }
 .answer-form button { border: 0; border-radius: 12px; background: var(--purple); color: white; padding: 0 18px; font-weight: 700; }
+.answer-form button:disabled { cursor: not-allowed; opacity: .4; }
 .answer-chips { min-height: 90px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; margin: 20px 0; }
-.answer-chips span { background: #f0efff; border-radius: 999px; padding: 7px 12px; font-size: .85rem; }
+.answer-chip { display: inline-flex; align-items: center; gap: 8px; background: #f0efff; color: var(--ink); border-radius: 999px; padding: 7px 8px 7px 12px; font-size: .85rem; }
+.answer-chip button { display: grid; place-items: center; width: 20px; height: 20px; border: 0; padding: 0; border-radius: 50%; background: #d8d5f8; color: #23252b; font-size: 1rem; line-height: 1; }
+.answer-chip button:hover, .answer-chip button:focus-visible { background: #c4bff2; }
+.answer-chip:hover { background: #e6e3ff; }
 .score { display: flex; align-items: baseline; gap: 10px; margin: 25px 0 4px; }
 .score strong { font-size: 5rem; line-height: 1; color: var(--purple); }
 .score span { color: var(--muted); }
+.sub-result { color: var(--muted); font-size: .82rem; }
 .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px; }
 .summary { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 22px; }
 .summary p { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
 .summary-total { color: var(--purple); font-weight: 800; }
+.survey-button { width: 100%; margin-top: 20px; border: 1px solid var(--purple); border-radius: 12px; padding: 13px; background: #f0efff; color: var(--purple); font-weight: 800; }
+.survey-button span { float: right; }
+.next-button { margin-top: 25px; }
 footer { display: flex; justify-content: space-between; color: var(--muted); font: 11px 'DM Mono', monospace; margin-top: 24px; }
 @media (max-width: 560px) {
   .app-shell { width: min(100% - 24px, 760px); padding-top: 24px; }
