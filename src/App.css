@@ -22,6 +22,9 @@ input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px
 .hint { color: var(--muted); font-size: .8rem; margin: 10px 0 0; }
 .section-heading { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 25px; }
 .step { color: var(--purple); font-size: 15px; }
+.test-notice { margin-bottom: 20px; padding: 16px; border-left: 4px solid var(--purple); border-radius: 10px; background: #f4f2ff; text-align: left; }
+.test-notice strong { display: block; margin-bottom: 7px; font-size: .85rem; }
+.test-notice p { margin: 3px 0; color: #555b68; font-size: .82rem; line-height: 1.55; }
 .environment-list { display: grid; gap: 10px; }
 .environment-card { width: 100%; display: flex; align-items: center; gap: 13px; text-align: left; border: 1px solid var(--line); background: white; border-radius: 14px; padding: 15px; color: var(--ink); }
 .environment-card.selected { border: 2px solid var(--purple); padding: 14px; background: #faf9ff; }
@@ -32,6 +35,7 @@ input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px
 .sequence { display: grid; gap: 10px; margin: 24px 0; }
 .sequence-item { display: flex; align-items: center; gap: 12px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; font-size: .9rem; }
 .config-note { color: var(--muted); font-size: .8rem; margin: 0 0 20px; }
+.setup-error { margin: -8px 0 18px; color: #b42318; font-size: .8rem; font-weight: 700; }
 .file-label { margin: 20px 0; }
 .file-label input { padding: 9px; font-size: .8rem; }
 .primary-button { width: 100%; border: 0; border-radius: 12px; padding: 15px 18px; background: var(--ink); color: white; font-weight: 800; }
@@ -49,6 +53,14 @@ input:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px
 .word-card span { font-size: clamp(2.5rem, 13vw, 6rem); font-weight: 800; letter-spacing: -.08em; }
 .rest-card { display: flex; flex-direction: column; gap: 15px; color: var(--muted); }
 .rest-card strong { font-size: 5rem; color: var(--ink); }
+.math-card { padding: 28px; }
+.math-card .rest-countdown { font: 700 1rem 'DM Mono', monospace; color: var(--muted); }
+.math-question { margin: 10px 0 4px; color: var(--ink); font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 800; letter-spacing: -.04em; }
+.math-form { display: flex; width: min(100%, 360px); gap: 8px; }
+.math-form input { min-width: 0; text-align: center; font-size: 1.1rem; }
+.math-form button { border: 0; border-radius: 12px; padding: 0 20px; background: var(--purple); color: white; font-weight: 800; }
+.math-form button:disabled { opacity: .45; cursor: not-allowed; }
+.math-status { margin: 0; color: var(--purple); font-size: .8rem; font-weight: 700; }
 .progress-track { height: 5px; background: var(--line); border-radius: 5px; overflow: hidden; }
 .progress-track div { height: 100%; background: var(--purple); }
 .progress-fill { width: 100%; transform-origin: left; animation: countdown var(--duration) linear forwards; }
@@ -83,6 +95,8 @@ footer { display: flex; justify-content: space-between; color: var(--muted); fon
   .setting-grid { grid-template-columns: 1fr; gap: 10px; }
   .panel { border-radius: 18px; padding: 20px 16px; }
   .word-card, .rest-card { min-height: 52svh; }
+  .math-form { flex-direction: column; }
+  .math-form button { padding: 12px; }
   .answer-form { flex-direction: column; }
   .answer-form button { padding: 12px; }
   .result-actions { grid-template-columns: 1fr; }

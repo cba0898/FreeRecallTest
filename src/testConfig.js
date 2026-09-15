@@ -6,20 +6,22 @@ export const TEST_CONFIG = {
   // 결과 저장용 Google Sheets 주소
   googleSheetsUrl: 'https://docs.google.com/spreadsheets/d/130ySxByz7rRNyRaNsbst1NQRfQqQ-o7clfXh7RUpcnI/edit?usp=sharing',
   // Apps Script 웹 앱 배포 후 받은 /exec 주소를 여기에 입력하세요.
-  resultsEndpoint: 'https://script.google.com/macros/s/AKfycbwHMqjKAOalwMo_Sznii4kAIkGZpldsjAVrsehv5cuqVP6q33DMjE42nTvs-OAa9dkd/exec',
+  resultsEndpoint: 'https://script.google.com/macros/s/AKfycbysKzvi8Z5TC_am2buiPoywkN9zVOhPswBTafAl-Tbk45Q7AZb9Lz28Tgx9SVL_lpNm/exec',
   // 결과 ID를 받을 Google Form 링크와 단답형 질문의 entry ID
   surveyUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfFXaAHkEQokXNSTHr-RObPawuuPA_hBRIPmDYRzBZ358XpHg/viewform',
   surveyEntryId: '527238351',
   // 단어와 시간 설정은 Google Sheets의 Words/Config에서 불러옵니다.
   words: [],
+  mathProblems: [],
   wordsPerRound: 0,
   wordDurationSeconds: 0,
   restDurationSeconds: 0,
-  holdDurationMilliseconds: 500,
+  holdDurationMilliseconds: 3000,
   environments: [
-    { id: 'silent', name: '무소음 환경', color: '#ef8354', bgm: '' },
-    { id: 'white-noise', name: '백색소음 (도서관)', color: '#3d8b8b', bgm: '/audio/white_noise.mp3' },
-    { id: 'korean', name: '가사 있는 노래 (한국어)', color: '#7567d9', bgm: '/audio/korean_song.mp3' },
-    { id: 'foreign', name: '가사 있는 노래 (외국어)', color: '#d15c88', bgm: '/audio/foreign_song.mp3' },
+    { id: 'silent', name: '무소음', color: '#ef8354', bgm: '' },
+    { id: 'white-noise', name: '백색소음(바다)', color: '#3d8b8b', bgm: '/audio/white_noise.mp3' },
+    { id: 'instrumental', name: '가사 없는 음악', color: '#d59b39', bgm: '/audio/instrumental_song.mp3' },
+    { id: 'korean', name: '가사 있는 음악(한국어)', color: '#7567d9', bgm: '/audio/korean_song.mp3' },
+    { id: 'foreign', name: '가사 없는 음악(외국어)', color: '#d15c88', bgm: '/audio/foreign_song.mp3' },
   ],
 }

@@ -38,7 +38,7 @@ cba0898@gmail.com
 wordsPerRound            10     환경별 제시 단어 수
 wordDurationSeconds      1.5    단어 하나를 보여주는 시간(초)
 restDurationSeconds      10     환경 사이 휴식 시간(초)
-holdDurationMilliseconds 500    입력 완료 버튼을 누르는 시간(밀리초)
+holdDurationMilliseconds 3000   입력 완료 버튼을 누르는 시간(밀리초)
 ```
 
 ### Words 탭
@@ -55,16 +55,30 @@ holdDurationMilliseconds 500    입력 완료 버튼을 누르는 시간(밀리�
 
 단어를 추가하거나 삭제하면 사이트를 새로고침한 뒤 변경 내용이 반영됩니다. 단어 목록은 프로젝트 파일이 아니라 `Words` 탭에서 관리합니다.
 
+### Math 탭
+
+첫 번째 행은 제목으로 두고, 두 번째 행부터 산수 문제와 정답을 입력합니다.
+
+```text
+문제열        답열
+3 + 11 = ?    14
+4 + 9 = ?     13
+10 + 11 = ?   21
+```
+
+문제와 정답은 모두 문자열로 불러옵니다. 문제열이나 답열이 비어 있는 행은 사용하지 않습니다.
+
 ## 4. 시트1에 저장되는 정보
 
-검사 완료 후 첫 번째 시트에는 다음 5개 열만 저장됩니다.
+검사 완료 후 첫 번째 시트에는 다음 6개 열만 저장됩니다.
 
 ```text
 결과 ID
 무소음 정답률
-백색소음 정답률
-한국어 노래 정답률
-외국어 노래 정답률
+백색소음(바다) 정답률
+가사 없는 음악 정답률
+가사 있는 음악(한국어) 정답률
+가사 없는 음악(외국어) 정답률
 ```
 
 정답률은 다음 기준입니다.
@@ -138,6 +152,7 @@ public/audio/
 
 ```text
 white_noise.mp3
+instrumental_song.mp3
 korean_song.mp3
 foreign_song.mp3
 ```
@@ -146,9 +161,9 @@ foreign_song.mp3
 
 ```js
 {
-  id: 'white-noise',
-  name: '백색소음 (도서관)',
-  bgm: '/audio/white_noise.mp3',
+  id: 'instrumental',
+  name: '가사 없는 음악',
+  bgm: '/audio/instrumental_song.mp3',
 }
 ```
 
@@ -158,7 +173,7 @@ SoundCloud·YouTube 페이지 주소는 `<audio>`에서 직접 재생할 수 없
 
 Google Sheets에 연결된 Apps Script는 두 가지 역할을 합니다.
 
-- `doGet()`: Config와 Words 탭의 데이터를 사이트에 전달
+- `doGet()`: Config·Words·Math 탭의 데이터를 사이트에 전달
 - `doPost()`: 검사 완료 후 결과 ID와 환경별 정답률을 시트1에 저장
 
 Apps Script 웹 앱은 다음 권한으로 배포해야 합니다.
