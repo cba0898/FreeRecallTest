@@ -35,6 +35,7 @@ cba0898@gmail.com
 
 ```text
 항목                     값     설명
+debug                    FALSE  TRUE면 환경별 1문항·1초 휴식으로 실행
 wordsPerRound            10     환경별 제시 단어 수
 wordDurationSeconds      1.5    단어 하나를 보여주는 시간(초)
 restDurationSeconds      10     환경 사이 휴식 시간(초)
@@ -78,7 +79,7 @@ holdDurationMilliseconds 3000   입력 완료 버튼을 누르는 시간(밀리�
 백색소음(바다) 정답률
 가사 없는 음악 정답률
 가사 있는 음악(한국어) 정답률
-가사 없는 음악(외국어) 정답률
+가사 있는 음악(외국어) 정답률
 ```
 
 정답률은 다음 기준입니다.

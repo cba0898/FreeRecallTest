@@ -3,7 +3,7 @@ const SHEET_ENVIRONMENTS = [
   '백색소음(바다)',
   '가사 없는 음악',
   '가사 있는 음악(한국어)',
-  '가사 없는 음악(외국어)',
+  '가사 있는 음악(외국어)',
 ];
 
 const APP_ENVIRONMENTS = [
@@ -11,7 +11,7 @@ const APP_ENVIRONMENTS = [
   '백색소음(바다)',
   '가사 없는 음악',
   '가사 있는 음악(한국어)',
-  '가사 없는 음악(외국어)',
+  '가사 있는 음악(외국어)',
 ];
 
 function getSpreadsheet() {

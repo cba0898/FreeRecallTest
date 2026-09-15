@@ -48,6 +48,9 @@ function App() {
         const remoteConfig = remote.config || {}
         setConfig((current) => ({
           ...current,
+          debug: remoteConfig.debug === undefined
+            ? current.debug
+            : String(remoteConfig.debug).toLowerCase() === 'true',
           words: Array.isArray(remote.words) ? remote.words : current.words,
           mathProblems: Array.isArray(remote.mathProblems) ? remote.mathProblems : current.mathProblems,
           wordsPerRound: Number(remoteConfig.wordsPerRound) || current.wordsPerRound,
