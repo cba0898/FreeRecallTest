@@ -2,7 +2,7 @@
 // BGM 파일은 public/audio 폴더에 넣고 '/audio/파일명.mp3'처럼 경로를 적으세요.
 export const TEST_CONFIG = {
   // 개발 중 빠른 테스트용. true면 테마별 1문항·1초 휴식. 배포 전 false로 바꾸세요.
-  debug: true,
+  debug: false,
   // 결과 저장용 Google Sheets 주소
   googleSheetsUrl: 'https://docs.google.com/spreadsheets/d/130ySxByz7rRNyRaNsbst1NQRfQqQ-o7clfXh7RUpcnI/edit?usp=sharing',
   // Apps Script 웹 앱 배포 후 받은 /exec 주소를 여기에 입력하세요.
