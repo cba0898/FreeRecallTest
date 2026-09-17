@@ -39,6 +39,7 @@ debug                    FALSE  TRUE면 환경별 1문항·1초 휴식으로 실
 wordsPerRound            10     환경별 제시 단어 수
 wordDurationSeconds      1.5    단어 하나를 보여주는 시간(초)
 restDurationSeconds      10     환경 사이 휴식 시간(초)
+startCountdownSeconds    3      각 환경 시작 전 대기 시간(초)
 holdDurationMilliseconds 3000   입력 완료 버튼을 누르는 시간(밀리초)
 ```
 

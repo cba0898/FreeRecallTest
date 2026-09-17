@@ -8,6 +8,8 @@ export const TEST_CONFIG = {
   // Apps Script 웹 앱 배포 후 받은 /exec 주소를 여기에 입력하세요.
   resultsEndpoint: 'https://script.google.com/macros/s/AKfycbzaL-_mr3QUBNL_f2YcZhTWVJrpIDsuRB8guS_7idZlyXDAVfrRHlGGCLrB0_tmOPCE/exec',
   // 결과 ID를 받을 Google Form 링크와 단답형 질문의 entry ID
+  introBgm: '/audio/BGM.mp3',
+  introBgmVolume: 0.35,
   surveyUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfFXaAHkEQokXNSTHr-RObPawuuPA_hBRIPmDYRzBZ358XpHg/viewform',
   surveyEntryId: '527238351',
   // 단어와 시간 설정은 Google Sheets의 Words/Config에서 불러옵니다.
@@ -16,6 +18,7 @@ export const TEST_CONFIG = {
   wordsPerRound: 0,
   wordDurationSeconds: 0,
   restDurationSeconds: 0,
+  startCountdownSeconds: 3,
   holdDurationMilliseconds: 3000,
   environments: [
     { id: 'silent', name: '무소음', color: '#ef8354', bgm: '' },

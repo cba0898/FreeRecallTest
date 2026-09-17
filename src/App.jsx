@@ -4,7 +4,7 @@ import './App.css'
 
 function App() {
   const [config, setConfig] = useState(TEST_CONFIG)
-  const { words, wordsPerRound, wordDurationSeconds, restDurationSeconds, holdDurationMilliseconds, environments } = config
+  const { words, wordsPerRound, wordDurationSeconds, restDurationSeconds, startCountdownSeconds, holdDurationMilliseconds, environments } = config
   const [sessionEnvironments, setSessionEnvironments] = useState(environments)
   const activeEnvironments = sessionEnvironments
   const activeWordsPerRound = config.debug ? 1 : wordsPerRound
@@ -29,6 +29,7 @@ function App() {
   const holdIntervalRef = useRef(null)
   const sessionWordsRef = useRef([])
   const environment = activeEnvironments[environmentIndex]
+  const audioSource = phase === 'setup' ? config.introBgm : environment.bgm
   const currentMathProblem = sessionMathProblems[environmentIndex]
   const cleanWords = useMemo(() => {
     const uniqueWords = new Map()
@@ -56,6 +57,7 @@ function App() {
           wordsPerRound: Number(remoteConfig.wordsPerRound) || current.wordsPerRound,
           wordDurationSeconds: Number(remoteConfig.wordDurationSeconds) || current.wordDurationSeconds,
           restDurationSeconds: Number(remoteConfig.restDurationSeconds) || current.restDurationSeconds,
+          startCountdownSeconds: Number(remoteConfig.startCountdownSeconds) || current.startCountdownSeconds,
           holdDurationMilliseconds: Number(remoteConfig.holdDurationMilliseconds) || current.holdDurationMilliseconds,
         }))
       })
@@ -64,14 +66,17 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!['present', 'rest'].includes(phase)) return undefined
+    if (!['countdown', 'present', 'rest'].includes(phase)) return undefined
     const timer = window.setTimeout(() => {
       if (timeLeft > 0.1) {
         setTimeLeft(Math.round((timeLeft - 0.1) * 10) / 10)
         return
       }
 
-      if (phase === 'present' && wordIndex + 1 < roundWords.length) {
+      if (phase === 'countdown') {
+        setTimeLeft(wordDurationSeconds)
+        setPhase('present')
+      } else if (phase === 'present' && wordIndex + 1 < roundWords.length) {
         setWordIndex((value) => value + 1)
         setTimeLeft(wordDurationSeconds)
       } else if (phase === 'present') {
@@ -89,18 +94,19 @@ function App() {
     if (!audioRef.current) return
     audioRef.current.pause()
     audioRef.current.currentTime = 0
-    audioRef.current.src = environment.bgm || ''
+    audioRef.current.src = audioSource || ''
     audioRef.current.loop = true
-  }, [environment])
+    audioRef.current.volume = config.introBgmVolume
+  }, [audioSource, config.introBgmVolume])
 
   useEffect(() => {
-    if (!audioRef.current || !environment.bgm) return
-    if (phase === 'present' || phase === 'rest' || phase === 'recall') {
+    if (!audioRef.current || !audioSource) return
+    if (phase === 'setup' || phase === 'countdown' || phase === 'present' || phase === 'rest' || phase === 'recall') {
       audioRef.current.play().catch(() => {})
     } else {
       audioRef.current.pause()
     }
-  }, [phase, environment.bgm])
+  }, [phase, audioSource])
 
   const shuffleItems = (source) => {
     const shuffled = [...source]
@@ -117,12 +123,12 @@ function App() {
     setEnvironmentIndex(index)
     setRoundWords(selectedWords)
     setWordIndex(0)
-    setTimeLeft(wordDurationSeconds)
+    setTimeLeft(startCountdownSeconds)
     setAnswers([])
     setAnswer('')
     setMathAnswer('')
     setMathSubmitted(false)
-    setPhase('present')
+    setPhase('countdown')
   }
 
   const startTest = () => {
@@ -137,6 +143,7 @@ function App() {
       setSetupError('Math 시트에 산수 문제와 답을 한 개 이상 입력해 주세요.')
       return
     }
+    audioRef.current?.play().catch(() => {})
     setSetupError('')
     sessionWordsRef.current = shuffleItems(cleanWords).slice(0, requiredWordCount)
     setSessionEnvironments(shuffleItems(environments))
@@ -246,12 +253,16 @@ function App() {
           <strong>검사 전 안내</strong>
           <p>조용한 환경에서 시행해주세요.</p>
           <p>가능하다면 이어폰을 착용하시고 노이즈 캔슬링 기능을 사용해 주세요. 동일한 음량을 유지해주세요.</p>
+          <p>듣기 편한 볼륨으로 조정해 주세요.</p>
+          <p>첫 화면에서 편안한 음량의 음악이 재생됩니다.</p>
         </div>
         <div className="sequence">{environments.map((item) => <div className="sequence-item" key={item.id}><span className="environment-dot" style={{ backgroundColor: item.color }} /><span>{item.name}</span></div>)}</div>
         <p className="config-note">중복 없는 단어 {cleanWords.length}개 중 환경마다 {activeWordsPerRound}개가 무작위로 제시됩니다. 전체 검사에는 {requiredWordCount}개가 필요합니다.</p>
         {setupError && <p className="setup-error" role="alert">{setupError}</p>}
         <button className="primary-button" onClick={startTest} disabled={isDataLoading || !cleanWords.length}>{isDataLoading ? '데이터 로드 중...' : <>검사 시작하기 <span>→</span></>}</button>
       </section>}
+
+      {phase === 'countdown' && <section className="test-stage countdown-stage"><p className="stage-label">{environment.name}</p><div className="rest-card"><span>잠시 후 시작합니다</span><strong>{Math.ceil(timeLeft)}</strong><p>초 후 시작합니다</p></div><div className="progress-track"><div className="progress-fill rest-fill" key={`countdown-${environmentIndex}`} style={{ '--duration': `${startCountdownSeconds}s` }} /></div></section>}
 
       {phase === 'present' && <section className="test-stage"><p className="stage-label">{environment.name} · {wordIndex + 1} / {roundWords.length}</p><div className="word-card"><span>{roundWords[wordIndex]}</span></div><div className="progress-track"><div className="progress-fill" key={`${environmentIndex}-${wordIndex}`} style={{ '--duration': `${wordDurationSeconds}s` }} /></div><p className="countdown">{timeLeft.toFixed(1)}초 동안 기억하세요</p></section>}
 
