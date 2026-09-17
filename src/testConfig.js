@@ -10,8 +10,8 @@ export const TEST_CONFIG = {
   // 결과 ID를 받을 Google Form 링크와 단답형 질문의 entry ID
   introBgm: '/audio/BGM.mp3',
   introBgmVolume: 0.35,
-  surveyUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfFXaAHkEQokXNSTHr-RObPawuuPA_hBRIPmDYRzBZ358XpHg/viewform',
-  surveyEntryId: '527238351',
+  surveyUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfkP81YqWGi9NInSSlx0QF2Sjdak1QsTOpqnQQ4NAzY5grXAg/viewform',
+  surveyEntryId: '2042966662',
   // 단어와 시간 설정은 Google Sheets의 Words/Config에서 불러옵니다.
   words: [],
   mathProblems: [],
