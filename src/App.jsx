@@ -228,13 +228,7 @@ function App() {
   }
 
   const nextEnvironment = () => beginRound(environmentIndex + 1)
-  const openSurvey = () => {
-    const { surveyUrl, surveyEntryId } = TEST_CONFIG
-    const url = surveyEntryId
-      ? `${surveyUrl}?usp=pp_url&entry.${surveyEntryId}=${encodeURIComponent(resultId)}`
-      : surveyUrl
-    window.open(url, '_blank', 'noopener,noreferrer')
-  }
+  
   const latest = roundResults.at(-1)
   const totalCorrect = roundResults.reduce((sum, result) => sum + result.correct, 0)
   const totalPresented = roundResults.reduce((sum, result) => sum + result.presented, 0)
@@ -270,7 +264,23 @@ function App() {
 
       {phase === 'recall' && <section className="panel recall-panel"><p className="stage-label">기억나는 단어를 하나씩 입력하세요</p><h2>{environment.name}</h2><form onSubmit={submitAnswer} className="answer-form"><input autoFocus disabled={answers.length >= roundWords.length} value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder={answers.length >= roundWords.length ? '제시된 단어 수만큼 입력했습니다' : '단어를 입력하고 Enter'} /><button type="submit" disabled={answers.length >= roundWords.length}>추가</button></form><div className="answer-chips">{answers.map((item, index) => <span className="answer-chip" key={`${item}-${index}`}><span>{item}</span><button type="button" onClick={() => removeAnswer(index)} aria-label={`${item} 삭제`}>×</button></span>)}</div><button className="primary-button hold-button" onPointerDown={startHold} onPointerUp={cancelHold} onPointerLeave={cancelHold} onPointerCancel={cancelHold} aria-label={`모든 단어 입력 후 종료를 위해 ${holdDurationSeconds}초간 누르세요`}><span className="hold-fill" style={{ transform: `scaleX(${holdProgress})` }} /><span className="hold-label">{isHolding ? `모든 단어 입력 후 종료를 위해 ${holdDurationSeconds}초간 누르세요` : `입력 완료 (${answers.length}개)`}</span><span className="hold-arrow">→</span></button></section>}
 
-      {phase === 'results' && <section className="panel results-panel"><p className="eyebrow">{environmentIndex + 1} / {activeEnvironments.length} ROUND COMPLETE</p><h2>라운드 결과</h2><div className="score"><strong>{latest?.correct ?? 0}</strong><span>/ {latest?.presented ?? 0}개 정답</span></div><p>제시 단어 기준 정답률: <b>{latest?.presented ? Math.round((latest.correct / latest.presented) * 100) : 0}%</b></p><p className="sub-result">입력 단어: {latest?.total ?? 0}개 · 입력 기준 정답률: {latest?.total ? Math.round((latest.correct / latest.total) * 100) : 0}%</p>{roundResults.length === activeEnvironments.length && <div className="summary"><h3>종합 결과</h3>{roundResults.map((result) => <p key={result.environment}><span>{result.environment}</span><b>{result.correct} / {result.presented}</b></p>)}<p className="summary-total"><span>전체</span><b>{totalCorrect} / {totalPresented}</b></p><button className="survey-button" onClick={openSurvey}>설문하기 <span>↗</span></button></div>}{environmentIndex + 1 < activeEnvironments.length && <button className="primary-button next-button" onClick={nextEnvironment}>다음 환경 <span>→</span></button>}</section>}
+      {phase === 'results' && <section className="panel results-panel"><p className="eyebrow">{environmentIndex + 1} / {activeEnvironments.length} ROUND COMPLETE</p><h2>라운드 결과</h2><div className="score"><strong>{latest?.correct ?? 0}</strong><span>/ {latest?.presented ?? 0}개 정답</span></div><p>제시 단어 기준 정답률: <b>{latest?.presented ? Math.round((latest.correct / latest.presented) * 100) : 0}%</b></p><p className="sub-result">입력 단어: {latest?.total ?? 0}개 · 입력 기준 정답률: {latest?.total ? Math.round((latest.correct / latest.total) * 100) : 0}%</p>
+      
+      {roundResults.length === activeEnvironments.length && (
+        <div className="summary">
+          <h3>종합 결과</h3>
+          {roundResults.map((result) => <p key={result.environment}><span>{result.environment}</span><b>{result.correct} / {result.presented}</b></p>)}
+          <p className="summary-total"><span>전체</span><b>{totalCorrect} / {totalPresented}</b></p>
+          
+          <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f0f4f8', borderRadius: '12px', border: '2px dashed #7567d9', textAlign: 'center' }}>
+            <p style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: 'bold', color: '#555' }}>👇 아래 결과 코드를 복사해서 구글 폼에 붙여넣으세요 👇</p>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#7567d9', letterSpacing: '1px', marginBottom: '12px', wordBreak: 'break-all', userSelect: 'all' }}>{resultId}</div>
+            <button className="primary-button" onClick={() => { navigator.clipboard.writeText(resultId).then(() => alert('✅ 코드가 복사되었습니다!\n\n이제 이 창은 그대로 두시고, 아까 질문에 답하시던 원래 구글 폼 창으로 돌아가서 빈칸에 붙여넣기(Ctrl+V) 해주세요.')).catch(() => alert('위 코드를 직접 드래그해서 복사해주세요.')) }} style={{ width: '100%', backgroundColor: '#7567d9' }}>코드 복사하기 📋</button>
+          </div>
+        </div>
+      )}
+      
+      {environmentIndex + 1 < activeEnvironments.length && <button className="primary-button next-button" onClick={nextEnvironment}>다음 환경 <span>→</span></button>}</section>}
       <footer><span>Free Recall Test</span><span>Round {Math.min(environmentIndex + 1, activeEnvironments.length)} / {activeEnvironments.length}</span></footer>
     </main>
   )
